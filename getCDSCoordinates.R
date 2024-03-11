@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 library(optparse)
 
 option_list = list(make_option(c("-i", "--inputpath"), type='character', default=NULL, help='path to input GTF file', metavar='character'),

@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 library(optparse)
 
 option_list = list(make_option(c("-c", "--chromosome"), type='character', default=NULL, help='chromosome of interest', metavar='character'), 

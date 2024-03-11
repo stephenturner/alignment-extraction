@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 require("rphast")
 require(optparse)
 
