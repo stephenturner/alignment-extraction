@@ -21,8 +21,31 @@ To make the operation computationally feasible, start by splitting the MAF of a 
 
 Below is an example command for splitting the MAF of chrY (`mouse24way_chrY.maf`) into fragments of 300kb. The resulting outputs can be seen in the folder `data/alignment/chrY/`.
 
+<details><summary>Creating the mouse-24way_chrY.maf.gz file (expand).</summary>
+
+----
+
+Starting with the data provided by the upstream in [data/alignment/chrY](data/alignment/chrY). First get the maf-sort.sh script from the [last repo mirror](https://github.com/UCSantaCruzComputationalGenomicsLab/last).
+
+```sh
+wget https://raw.githubusercontent.com/UCSantaCruzComputationalGenomicsLab/last/master/scripts/maf-sort.sh
+chmod +x maf-sort.sh
 ```
-maf_parse mouse24way_chrY.maf --split 300000 --out-root data/alignment/chrY/chrYsplit
+
+Then sort the maf file.
+
+```sh
+cat data/alignment/chrY/chrYsplit*.maf | ./maf-sort.sh > mouse24way_chrY.maf
+gzip mouse24way_chrY.maf
+```
+
+----
+
+</details>
+
+
+```sh
+maf_parse <(gzip -dc mouse24way_chrY.maf.gz) --split 300000 --out-root data/alignment/chrY/chrYsplit
 ```
 
 ### Step 2: Obtain the coordinates of coding regions (CDS) from GTF file
@@ -35,7 +58,7 @@ This step produces a GTF file that only contains coding region coordinates of ge
 
 The following is an example of how to run the function from the command line:
 
-```
+```sh
 Rscript getCDSCoordinates.R -i data/genepred/mm10.ncbiRefSeq.chrY.gtf -o output/CDS-coordinates/mm10.ncbiRefSeq.coding.chrY.gtf
 ```
 
@@ -52,7 +75,7 @@ This step produces data structures necessary for the subsequent extraction of co
 
 The following is an example of how to run the function from the command line:
 
-```
+```sh
 Rscript getGeneBoundaries.R -c chrY -i output/CDS-coordinates/mm10.ncbiRefSeq.coding.chrY.gtf -o output/CDS-information/
 ```
 
@@ -74,7 +97,7 @@ This step extracts the alignments of coding regions of interest in the FASTA for
 
 The following is an example of how to run the function from the command line. Resulting alignments are reverse-complemented when necessary. Example outputs can be seen in the folder `output/coding-region-alignment/chrY/`.
 
-```
+```sh
 Rscript getCodingAlignments.R -c chrY -r mm10 -i output/CDS-information/ -o output/coding-region-alignment/chrY/ -a data/alignment/chrY/ -p chrYsplit
 ```
 
@@ -110,6 +133,6 @@ This step extracts the alignments of non-coding regions of interest in the FASTA
 
 The following is an example of how to run the function from the command line. Example outputs can be seen in the folder `output/CNE-alignment/`.
 
-```
+```sh
 Rscript getNonCodingAlignments.R -c chrY -r mm10 -i data/CNE-coordinates/mouseCNEs.chrY.bed -o output/CNE-alignment/ -a data/alignment/chrY/ -p chrYsplit
 ```
