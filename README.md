@@ -117,7 +117,7 @@ This step produces data structures necessary for the subsequent extraction of co
 
 - `-c, --chromosome`: chromosome of interest
 - `-i, --genepred_cds_path`: GTF file path containing the CDS coordinates in the chromosome of interest (output from Step 2)
-- `-o, --output_folder`: output folder path (end path with slash)
+- `-o, --output_folder`: output folder path
 
 The following is an example of how to run the function from the command line:
 
@@ -125,7 +125,7 @@ The following is an example of how to run the function from the command line:
 Rscript getGeneBoundaries.R \
     -c chrY \
     -i output/CDS-coordinates/mm10.ncbiRefSeq.coding.chrY.gtf \
-    -o output/CDS-information/
+    -o output/CDS-information
 ```
 
 Output files in [output/CDS-information/](output/CDS-information/) (output file names are partially hard-coded, see [`getGeneBoundaries.R`](getGeneBoundaries.R)).
@@ -139,9 +139,9 @@ This step extracts the alignments of coding regions of interest in the FASTA for
 
 - `-c, --chromosome`: chromosome of interest
 - `-r, --refseq`: reference sequence of alignment
-- `-i, --cds_info_folder`: CDS information folder (output folder path from Step 3), end path with slash
+- `-i, --cds_info_folder`: CDS information folder (output folder path from Step 3)
 - `-o, --output_folder`: output folder for coding region alignments
-- `-a, --mafFolderPath`: path to folder containing chromosome MAF fragments (end path with slash)
+- `-a, --mafFolderPath`: path to folder containing chromosome MAF fragments
 - `-p, --prefix`: prefix of MAF fragments
 
 The following is an example of how to run the function from the command line. Resulting alignments are reverse-complemented when necessary. Example outputs can be seen in the folder [`output/coding-region-alignment/chrY/`](output/coding-region-alignment/chrY).
@@ -150,9 +150,9 @@ The following is an example of how to run the function from the command line. Re
 Rscript getCodingAlignments.R \
     -c chrY \
     -r mm10 \
-    -i output/CDS-information/ \
-    -o output/coding-region-alignment/chrY/ \
-    -a data/alignment/chrY/ \
+    -i output/CDS-information \
+    -o output/coding-region-alignment/chrY \
+    -a data/alignment/chrY \
     -p chrYsplit
 ```
 
@@ -173,13 +173,13 @@ The same as Step 1 for coding regions.
 
 ### Step 2: Extract non-coding region alignments
 
-This step extracts the alignments of non-coding regions of interest in the FASTA format. This step is performed by the function `getNonCodingAlignments.R`, which takes the following arguments:
+This step extracts the alignments of non-coding regions of interest in the FASTA format. This step is performed by the function [`getNonCodingAlignments.R`](getNonCodingAlignments.R), which takes the following arguments:
 
 - `-c, --chromosome`: chromosome of interest
 - `-r, --refseq`: reference sequence of alignment
 - `-i, --elementBedPath`: path to BED file containing coordinates of regions of interest, e.g. [`data/CNE-coordinates/mouseCNEs.chrY.bed`](data/CNE-coordinates/mouseCNEs.chrY.bed)
 - `-o, --output_folder`: output folder for non-coding region alignments
-- `-a, --mafFolderPath`: path to folder containing chromosome MAF fragments (end path with slash)
+- `-a, --mafFolderPath`: path to folder containing chromosome MAF fragments
 - `-p, --prefix`: prefix of MAF fragments
 
 The following is an example of how to run the function from the command line. Example outputs can be seen in the folder `output/CNE-alignment/`.
@@ -189,8 +189,8 @@ Rscript getNonCodingAlignments.R \
     -c chrY \
     -r mm10 \
     -i data/CNE-coordinates/mouseCNEs.chrY.bed \
-    -o output/CNE-alignment/ \
-    -a data/alignment/chrY/ \
+    -o output/CNE-alignment \
+    -a data/alignment/chrY \
     -p chrYsplit
 ```
 

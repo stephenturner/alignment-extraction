@@ -43,7 +43,7 @@ CNE_count = 0
 
 for (i in 1:length(splitnum_sort)){
 	print(paste('Scanning fragment',i, '/', length(splitnum_sort)))
-	mafPath = paste0(mafFolderPath, split_alignment_prefix, splitnum_sort[i], '.maf')
+	mafPath = file.path(mafFolderPath, paste0(split_alignment_prefix, splitnum_sort[i], '.maf'))
 	
 	maf = read.msa(mafPath, pointer.only=T)
 	coord_range = coord.range.msa(maf)
@@ -65,7 +65,7 @@ for (i in 1:length(splitnum_sort)){
 			
 			for (j in 1:nrow(complete_CNE_in_maf)){
 				CNE_alignment = sub.msa(maf, start.col=complete_CNE_in_maf[j,2], end.col=complete_CNE_in_maf[j,3], refseq=refseq)
-				msa_name = paste0(output_folder, complete_CNE_in_maf[j,4], '.fa')
+				msa_name = file.path(output_folder, paste0(complete_CNE_in_maf[j,4], '.fa'))
 				write.msa(CNE_alignment, file=msa_name, format="FASTA")
 				
 				CNE_count = CNE_count + 1
@@ -82,12 +82,12 @@ for (i in 1:length(splitnum_sort)){
 				corrected_CNE_ends = c(maf_end, partial_CNE_in_maf[j,3])
 				corrected_CNE = data.frame("chr"=c(chr, chr), "start"=corrected_CNE_starts, "end"=corrected_CNE_ends)
 				CNE_alignment = sub.msa(maf, start.col=corrected_CNE[1,2], end.col=corrected_CNE[1,3], refseq=refseq)
-				mafPlusPath = paste(mafFolderPath, split_alignment_prefix, splitnum_sort[i+1], ".maf", sep="")
+				mafPlusPath = file.path(mafFolderPath, paste0(split_alignment_prefix, splitnum_sort[i+1], ".maf", sep=""))
 				mafplus = read.msa(mafPlusPath)
 
 				fragment_alignment = sub.msa(mafplus, start.col=corrected_CNE[2,2], end.col=corrected_CNE[2,3], refseq=refseq)
 				CNE_alignment = concat.msa(list(CNE_alignment, fragment_alignment))
-				msa_name = paste0(output_folder, partial_CNE_in_maf[j,4], '.fa')
+				msa_name = file.path(output_folder, paste0(partial_CNE_in_maf[j,4], '.fa'))
 				write.msa(CNE_alignment, file=msa_name, format="FASTA")
 
 				CNE_count = CNE_count + 1

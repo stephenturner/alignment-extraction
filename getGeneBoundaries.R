@@ -53,6 +53,6 @@ for (i in 1:length(gene_id_unique)){
 names(gene_cds_information) = gene_id_unique
 gene_boundaries_information$gene_id = gene_id_unique
 
-saveRDS(gene_cds_information, paste(output_folder, "gene_cds_information_", chr, ".RDS", sep=""))
-saveRDS(gene_boundaries_information, paste(output_folder, "gene_boundaries_information_", chr, ".RDS", sep=""))
+saveRDS(gene_cds_information, file.path(output_folder, paste0("gene_cds_information_", chr, ".RDS", sep="")))
+saveRDS(gene_boundaries_information, file.path(output_folder, paste0("gene_boundaries_information_", chr, ".RDS", sep="")))
 

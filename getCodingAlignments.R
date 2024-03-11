@@ -29,8 +29,8 @@ prefix = opt$prefix
 #mafFolderPath = 'data/alignment/chrY/'
 #prefix = 'chrYsplit'
 
-gene_boundaries_information = readRDS(paste0(cds_info_folder, "gene_boundaries_information_", chr, ".RDS"))
-gene_cds_information = readRDS(paste0(cds_info_folder, "gene_cds_information_", chr, ".RDS"))
+gene_boundaries_information = readRDS(file.path(cds_info_folder, paste0("gene_boundaries_information_", chr, ".RDS")))
+gene_cds_information = readRDS(file.path(cds_info_folder, paste0("gene_cds_information_", chr, ".RDS")))
 
 gene_boundaries_sorted = gene_boundaries_information[order(as.numeric(gene_boundaries_information$start), decreasing=F),]
 
@@ -49,7 +49,7 @@ splitnum_sort = sort(as.integer(splitnum), decreasing=F)
 gene_count = 0
 
 for (i in 1:length(splitnum_sort)){
-	mafPath = paste0(mafFolderPath, prefix, splitnum_sort[i], ".maf")
+	mafPath = file.path(mafFolderPath, paste0(prefix, splitnum_sort[i], ".maf"))
 	maf = read.msa(mafPath)
 	coord_range = coord.range.msa(maf)
 	maf_start = coord_range[1]
@@ -83,7 +83,7 @@ for (i in 1:length(splitnum_sort)){
 				}
 
 
-				msa_name = paste0(output_folder, toupper(gene_j), ".fa")
+				msa_name = file.path(output_folder, paste0(toupper(gene_j), ".fa"))
 				write.msa(gene_alignment, file=msa_name, format="FASTA")
 
 				gene_count = gene_count + 1
@@ -138,7 +138,7 @@ for (i in 1:length(splitnum_sort)){
 				remaining_exons_count = nrow(exons_notin_maf)
 				additional_maf_count = 1
 				while (remaining_exons_count > 0){
-					mafPlusPath = paste0(mafFolderPath, prefix, splitnum_sort[i+additional_maf_count], ".maf")
+					mafPlusPath = file.path(mafFolderPath, paste0(prefix, splitnum_sort[i+additional_maf_count], ".maf"))
 					mafplus = read.msa(mafPlusPath)
 
 					coord_range_plus = coord.range.msa(mafplus)
@@ -188,7 +188,7 @@ for (i in 1:length(splitnum_sort)){
 					gene_alignment = reverse.complement.msa(gene_alignment)
 				}
 				
-				msa_name = paste0(output_folder,toupper(gene_j), ".fa", sep="")
+				msa_name = file.path(output_folder,paste0(toupper(gene_j), ".fa", sep=""))
 				write.msa(gene_alignment, file=msa_name, format="FASTA")
 
 				gene_count = gene_count + 1
