@@ -95,8 +95,8 @@ wget http://hgdownload.cse.ucsc.edu/goldenPath/mm10/multiz60way/maf/chrM.maf.gz
 Cat them together into a single MAF file.
 
 ```sh
-cat <(gzip -dc mouse24way_chrY.maf) <(gzip -dc chrM.maf.gz) | ./maf-sort.sh > mouse.24way_chrY_MT.maf
-gzip -f mouse.24way_chrY_MT.maf
+cat <(gzip -dc mouse24way_chrY.maf) <(gzip -dc chrM.maf.gz) | ./maf-sort.sh > mouse24way_chrYMT.maf
+gzip -f mouse24way_chrYMT.maf
 rm -f chrM.maf.gz
 ```
 
@@ -106,7 +106,7 @@ If we want to split the MAF file by chromosome, we could use mafSplit from UCSC:
 wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/mafSplit
 chmod +x mafSplit
 mkdir mafsplit
-mafSplit -byTarget -useFullSequenceName placeholder.bed mafsplit/ <(gzip -dc mouse.24way_chrY_MT.maf.gz)
+mafSplit -byTarget -useFullSequenceName placeholder.bed mafsplit/ <(gzip -dc mouse24way_chrYMT.maf.gz)
 # file is mafsplit/chrY.maf
 ```
 
