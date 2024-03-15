@@ -79,11 +79,35 @@ wget https://raw.githubusercontent.com/UCSantaCruzComputationalGenomicsLab/last/
 chmod +x maf-sort.sh
 ```
 
-Then sort the maf file.
+Cat them all and sort them.
 
 ```sh
-cat data/alignment/chrY/chrYsplit*.maf | ./maf-sort.sh > mouse24way_chrY.maf
+cat data/alignment/chrY/chrYsplit*.maf | grep -v "^#" | ./maf-sort.sh > mouse24way_chrY.maf
 gzip mouse24way_chrY.maf
+```
+
+Now get just the chrM alignment from a different alignment, so as to demonstrate splitting the MAF file.
+
+```sh
+wget http://hgdownload.cse.ucsc.edu/goldenPath/mm10/multiz60way/maf/chrM.maf.gz
+```
+
+Cat them together into a single MAF file.
+
+```sh
+cat <(gzip -dc mouse24way_chrY.maf) <(gzip -dc chrM.maf.gz) | ./maf-sort.sh > mouse.24way_chrY_MT.maf
+gzip -f mouse.24way_chrY_MT.maf
+rm -f chrM.maf.gz
+```
+
+If we want to split the MAF file by chromosome, we could use mafSplit from UCSC:
+
+```sh
+wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/mafSplit
+chmod +x mafSplit
+mkdir mafsplit
+mafSplit -byTarget -useFullSequenceName placeholder.bed mafsplit/ <(gzip -dc mouse.24way_chrY_MT.maf.gz)
+# file is mafsplit/chrY.maf
 ```
 
 ----
